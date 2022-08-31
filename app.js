@@ -6,13 +6,22 @@ const loadData = (inputValue)=>{
     .then(data=>displayData(data.data))
 }
 
-loadData();
+
 
 
 const displayData = (phones)=>{
     console.log(phones);
    const disData = document.getElementById("display-phone-data");
    disData.innerHTML=""
+   phones = phones.slice(0, 10);
+   const noPhone=  document.getElementById("no-found");
+   if(phones.length === 0){
+    noPhone.classList.remove("d-none")
+   }
+   else{
+    noPhone.classList.remove("d-block")
+   }
+
     phones.forEach(phone => {
         const createDiv = document.createElement("div");
         createDiv.innerHTML=`
