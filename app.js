@@ -1,6 +1,7 @@
 
-const loadData = ()=>{
-    fetch('https://openapi.programming-hero.com/api/phones?search=iphone')
+const loadData = (inputValue)=>{
+    const url = `https://openapi.programming-hero.com/api/phones?search=${inputValue}`
+    fetch(url)
     .then(res=>res.json())
     .then(data=>displayData(data.data))
 }
@@ -11,6 +12,7 @@ loadData();
 const displayData = (phones)=>{
     console.log(phones);
    const disData = document.getElementById("display-phone-data");
+   disData.innerHTML=""
     phones.forEach(phone => {
         const createDiv = document.createElement("div");
         createDiv.innerHTML=`
@@ -29,3 +31,12 @@ const displayData = (phones)=>{
         
     });
 }
+
+
+document.getElementById("search-btn").addEventListener("click",function(){
+    const inputField= document.getElementById("input-value");
+    const inputValue = inputField.value;
+    loadData(inputValue);
+    inputField.value=""
+})
+
