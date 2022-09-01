@@ -15,11 +15,11 @@ const displayData = (phones)=>{
    disData.innerHTML=""
    phones = phones.slice(0, 10);
    const noPhone=  document.getElementById("no-found");
-   if(phones.length === 0){
+   if(phones.length == 0){
     noPhone.classList.remove("d-none")
    }
    else{
-    noPhone.classList.remove("d-block")
+    noPhone.classList.add("d-none")
    }
 
     phones.forEach(phone => {
@@ -39,13 +39,25 @@ const displayData = (phones)=>{
         disData.appendChild(createDiv);
         
     });
+    displayTogle(false);
 }
 
 
 document.getElementById("search-btn").addEventListener("click",function(){
+    displayTogle(true);
     const inputField= document.getElementById("input-value");
     const inputValue = inputField.value;
     loadData(inputValue);
-    inputField.value=""
+    inputField.value="";
 })
+
+const displayTogle = isLoading =>{
+    const loder = document.getElementById("togole");
+    if(isLoading){
+        loder.classList.remove("d-none");
+    }
+    else{
+        loder.classList.add("d-none")
+    }
+}
 
