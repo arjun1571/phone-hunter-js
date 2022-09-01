@@ -1,19 +1,27 @@
 
-const loadData = (inputValue)=>{
+const loadData = (inputValue, dataLimit)=>{
     const url = `https://openapi.programming-hero.com/api/phones?search=${inputValue}`
     fetch(url)
     .then(res=>res.json())
-    .then(data=>displayData(data.data))
+    .then(data=>displayData(data.data, dataLimit))
 }
 
 
 
 
-const displayData = (phones)=>{
-    console.log(phones);
+const displayData = (phones, dataLimit)=>{
+    console.log(dataLimit);
    const disData = document.getElementById("display-phone-data");
    disData.innerHTML=""
-   phones = phones.slice(0, 10);
+ 
+   const showAll= document.getElementById("showall");
+   if(dataLimit && phones.length > 10){
+    phones = phones.slice(0, 10);
+    showAll.classList.remove("d-none")
+   }else{
+    showAll.classList.add("d-none")
+   }
+   
    const noPhone=  document.getElementById("no-found");
    if(phones.length == 0){
     noPhone.classList.remove("d-none")
@@ -41,14 +49,23 @@ const displayData = (phones)=>{
     });
     displayTogle(false);
 }
-
-
-document.getElementById("search-btn").addEventListener("click",function(){
+const procesSearch=(dataLimit)=>{
     displayTogle(true);
     const inputField= document.getElementById("input-value");
     const inputValue = inputField.value;
-    loadData(inputValue);
+    loadData(inputValue, dataLimit);
     inputField.value="";
+}
+
+document.getElementById("search-btn").addEventListener("click",function(){
+    procesSearch(10)
+})
+
+document.getElementById("input-value").addEventListener('keypress',function(e){
+    console.log(e.key);
+    if (e.key === "Enter") {
+        procesSearch(10)
+    }
 })
 
 const displayTogle = isLoading =>{
@@ -61,3 +78,7 @@ const displayTogle = isLoading =>{
     }
 }
 
+
+document.getElementById("buttonShow").addEventListener("click",function(){
+    procesSearch()
+})
